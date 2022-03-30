@@ -1,34 +1,79 @@
 import os
+import re
+import json
 import openai
 from youtube_transcript_api import YouTubeTranscriptApi
+import streamlit as st
+import wget 
 
-openai.api_key = "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"
-
-
-
-
-def summarize(originalText):
-    response = openai.Completion.create(
-    engine="text-davinci-002",
-    prompt=originalText,
-    temperature=0.7,
-    max_tokens=300,
-    top_p=1.0,
-    frequency_penalty=0.0,
-    presence_penalty=0.0
-    )
-
-    print(response)
+from youtube_transcript_api.formatters import Formatter
+from youtube_transcript_api.formatters import TextFormatter
 
 
+with open('openai_key.txt') as f:
+
+    openai.api_key = f.readlines()[0    ]
+    print("oeeeeeee")
+    print(type(openai.api_key[0]))
+
+
+
+#Prompts openai API for a summarized transcript
+def summarize(text):
+    st.header("Summary")
+    with st.sidebar:
+        maxTokens=st.slider('Summary Length', 0, 1000,value=60,step=1)
+    with st.spinner('Summarizing the video...⌛'):
+        response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=text + "Tl;dr",
+        temperature=0.7,
+        max_tokens=maxTokens,
+        top_p=1.0,
+        frequency_penalty=0.0,
+        presence_penalty=0.0
+        )
+
+
+        #response = response["choices"]["text"]
+        #response=json.stringify(response['choices'][0]['text'])
+        st.markdown(response['choices'][0]['text'])
+        print(response)
+    
+
+#Download the subtitles of the given youtube video
 def getSubtitles(videoLink):
-    videoLink=videoLink[17:]
-    transcript=YouTubeTranscriptApi.get_transcript(videoLink)
+    videoID=videoLink[17:]
+    transcript=YouTubeTranscriptApi.get_transcript(videoID)
+    st.header("Video to summarize")
+    download_thumbnail(video_id=videoID)
+
+
 
     return transcript
 
 
+def convert(transcript):
+
+    formatter = TextFormatter()
+    text_formatted= formatter.format_transcript(transcript) 
+
+    #st.markdown(text_formatted)
+    return text_formatted   
+
+def video_summarizer(video_link):
+    #summarize(convert(getSubtitles(video_link)))
+    summarize(convert(getSubtitles(video_link)))
+
+
+def download_thumbnail(video_id):
+    thumbnailurl= 'https://img.youtube.com/vi/'+video_id + '/maxresdefault.jpg'
+    thumbnail=wget.download(thumbnailurl)
+    st.image(thumbnail)
 
 
 if __name__=="__main__":
-    summarize("Gates was born and raised in Seattle, Washington. In 1975, he and Allen founded Microsoft in Albuquerque, New Mexico. It became the world's largest personal computer software company.[5][a] Gates led the company as chairman and CEO until stepping down as CEO in January 2000, succeeded by Steve Ballmer, but he remained chairman of the board of directors and became chief software architect.[8] During the late 1990s, he was criticized for his business tactics, which have been considered anti-competitive. This opinion has been upheld by numerous court rulings.[9] In June 2008, Gates transitioned to a part-time role at Microsoft and full-time work at the Bill & Melinda Gates Foundation, the private charitable foundation he and his then-wife, Melinda Gates, established in 2000.[10] He stepped down as chairman of the board of Microsoft in February 2014 and assumed a new post as technology adviser to support the newly appointed CEO Satya Nadella.[11] In March 2020, Gates left his board positions at Microsoft and Berkshire Hathaway to focus on his philanthropic efforts including climate change, global health and development, and education.[12]\n\nTl;dr")
+    yt_link=st.text_input("Insert video link")
+
+    if (len(yt_link)>0):
+        print(summarize(convert(getSubtitles(yt_link))))    
