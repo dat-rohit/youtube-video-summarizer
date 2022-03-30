@@ -1,3 +1,0 @@
-openai==0.16.0 
-youtube-transcript-api==0.4.4 
-wget==3.2
