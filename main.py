@@ -40,6 +40,9 @@ def summarize(text):
         st.markdown(response['choices'][0]['text'])
         print(response)
     
+    st.markdown("Developed with ❤️ by [@dat_rohit](%s)" % "https://github.com/dat-rohit")
+
+    
 
 #Download the subtitles of the given youtube video
 def getSubtitles(videoLink):
