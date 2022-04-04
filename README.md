@@ -1,6 +1,6 @@
 # Youtube-video-summarizer
 
-This app was built with the purpose of getting a short text summary of any given youtube video (in English language only at the moment).
+This app was built with the purpose of getting a short text summary of any given youtube video (in English language only at the moment). It relies on OpenAI's API that provides access to GPT-3, mainly used for natural language tasks.
 
 
 ## Installation
