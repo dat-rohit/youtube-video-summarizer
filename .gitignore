@@ -1,2 +1,3 @@
 openai_key.txt
 **/*.jpg
+!interface_preview.jpg
