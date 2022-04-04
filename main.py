@@ -1,6 +1,3 @@
-import os
-import re
-import json
 import openai
 from youtube_transcript_api import YouTubeTranscriptApi
 import streamlit as st

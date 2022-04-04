@@ -1,2 +1,30 @@
-# youtube-video-summarizer
- Get a summarized text of what has been said in a youtube video
+# Youtube-video-summarizer
+
+This app was built with the purpose of getting a short text summary of any given youtube video (in English language only at the moment).
+
+
+## Installation
+
+Install the needed packages listed in requirements.txt easily with:
+
+```bash
+$ pip install -r requirements.txt
+```
+
+
+## Usage
+
+Once in the project folder, run the app with:
+
+```bash
+$ streamlit run main.py
+```
+
+The app should then be accessible at http://localhost:8501
+
+The web interface built using Streamlit allows you to input a youtube link (.be format accepted only, e.g: https://youtu.be/ukzFI9rgwfU) and get a text summary of its content. The sidebar has a slider that lets you adjust the length you want the summary to be.
+
+
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
