@@ -20,7 +20,7 @@ Once in the project folder, run the app with:
 $ streamlit run main.py
 ```
 
-The app should then be accessible at http://localhost:8501
+The app should then be accessible at ```http://localhost:8501```
 
 The web interface built using Streamlit allows you to input a youtube link (.be format accepted only, e.g: https://youtu.be/ukzFI9rgwfU) and get a text summary of its content. The sidebar has a slider that lets you adjust the length you want the summary to be.
 
